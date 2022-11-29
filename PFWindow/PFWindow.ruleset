@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="PFWindow の規則" Description="PFWindow.csproj のコード分析の規則です。" ToolsVersion="17.0">
+  <IncludeAll Action="Warning" />
+  <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.Features" RuleNamespace="Microsoft.CodeAnalysis.CSharp.Features">
+    <Rule Id="IDE0001" Action="Info" />
+    <Rule Id="IDE0002" Action="Info" />
+    <Rule Id="IDE0003" Action="Info" />
+    <Rule Id="IDE0004" Action="Info" />
+    <Rule Id="IDE0005" Action="Info" />
+    <Rule Id="IDE0059" Action="Info" />
+    <Rule Id="IDE0060" Action="Info" />
+    <Rule Id="IDE0080" Action="Info" />
+    <Rule Id="IDE0100" Action="Info" />
+    <Rule Id="IDE0110" Action="Info" />
+  </Rules>
+</RuleSet>

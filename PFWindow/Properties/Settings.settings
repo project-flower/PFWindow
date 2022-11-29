@@ -1,7 +1,30 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PFWindow.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="PreviewFrameColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Red</Value>
+    </Setting>
+    <Setting Name="PreviewShadowAlpha" Type="System.Byte" Scope="User">
+      <Value Profile="(Default)">128</Value>
+    </Setting>
+    <Setting Name="PreviewShadowColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Black</Value>
+    </Setting>
+    <Setting Name="Sizes" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;string&gt;1980x1080 Computer Mannagement,984x706&lt;/string&gt;
+  &lt;string&gt;1980x1080 DeviceManager,779x570&lt;/string&gt;
+  &lt;string&gt;1980x1080 Edge,928x1050&lt;/string&gt;
+  &lt;string&gt;1980x1080 Explorer,1125x634&lt;/string&gt;
+  &lt;string&gt;1980x1080 Local Group Policies,752x528&lt;/string&gt;
+  &lt;string&gt;1980x1080 Registry Editor,1424x758&lt;/string&gt;
+  &lt;string&gt;1980x1080 Settings,1200x932&lt;/string&gt;
+  &lt;string&gt;1980x1080 Task Manager,664x591&lt;/string&gt;
+  &lt;string&gt;1980x1080 Visual Studio 2022,1716x929&lt;/string&gt;
+  &lt;string&gt;1980x1080 Windows Media Player,1520x855&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
