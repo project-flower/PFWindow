@@ -63,16 +63,16 @@ namespace PFWindow.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
 <ArrayOfString xmlns:xsd=""http://www.w3.org/2001/XMLSchema"" xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"">
-  <string>1980x1080 Computer Mannagement,984x706</string>
-  <string>1980x1080 DeviceManager,779x570</string>
-  <string>1980x1080 Edge,928x1050</string>
-  <string>1980x1080 Explorer,1125x634</string>
-  <string>1980x1080 Local Group Policies,752x528</string>
-  <string>1980x1080 Registry Editor,1424x758</string>
-  <string>1980x1080 Settings,1200x932</string>
-  <string>1980x1080 Task Manager,664x591</string>
-  <string>1980x1080 Visual Studio 2022,1716x929</string>
-  <string>1980x1080 Windows Media Player,1520x855</string>
+  <string>1920x1080 Computer Mannagement,984x706</string>
+  <string>1920x1080 DeviceManager,779x570</string>
+  <string>1920x1080 Edge,928x1050</string>
+  <string>1920x1080 Explorer,1125x634</string>
+  <string>1920x1080 Local Group Policies,752x528</string>
+  <string>1920x1080 Registry Editor,1424x758</string>
+  <string>1920x1080 Settings,1200x932</string>
+  <string>1920x1080 Task Manager,664x591</string>
+  <string>1920x1080 Visual Studio 2022,1716x929</string>
+  <string>1920x1080 Windows Media Player,1520x855</string>
 </ArrayOfString>")]
         public global::System.Collections.Specialized.StringCollection Sizes {
             get {
