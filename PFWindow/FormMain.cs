@@ -16,6 +16,8 @@ namespace PFWindow
             public const int GetSize = 2;
             public const int TopMost = 3;
             public const int NoTopMost = 4;
+            public const int Translucent = 5;
+            public const int Opaque = 6;
         }
 
         #endregion
@@ -130,6 +132,14 @@ namespace PFWindow
 
                     case IndexOf.NoTopMost:
                         operation = Operations.NoTopMost;
+                        break;
+
+                    case IndexOf.Translucent:
+                        operation = Operations.Translucent;
+                        break;
+
+                    case IndexOf.Opaque:
+                        operation = Operations.Opaque;
                         break;
 
                     default:

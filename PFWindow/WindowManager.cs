@@ -93,6 +93,38 @@ namespace PFCentering
             callback(result);
         }
 
+        public static void SetOpacity(IntPtr handle, byte value)
+        {
+            IntPtr style = User32.GetWindowLongPtr(handle, GWL.EXSTYLE);
+
+            if (style == IntPtr.Zero)
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+
+            if (((int)style & WS.EX_LAYERED) == 0)
+            {
+                if (IntPtr.Size == 8)
+                {
+                    style = new IntPtr(style.ToInt64() | WS.EX_LAYERED);
+                }
+                else
+                {
+                    style = new IntPtr(style.ToInt32() | WS.EX_LAYERED);
+                }
+
+                if (User32.SetWindowLongPtr(handle, GWL.EXSTYLE, style) == IntPtr.Zero)
+                {
+                    throw new Win32Exception(Marshal.GetLastWin32Error());
+                }
+            }
+
+            if (!User32.SetLayeredWindowAttributes(handle, 0, value, LWA.ALPHA))
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+        }
+
         public static void SetTopMost(IntPtr handle, bool enable)
         {
             if (!User32.SetWindowPos(handle

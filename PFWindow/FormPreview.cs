@@ -64,6 +64,14 @@ namespace PFWindow
                         SetTopMost(true);
                         break;
 
+                    case Operations.Translucent:
+                        SetOpacity(0x80);
+                        break;
+
+                    case Operations.Opaque:
+                        SetOpacity(0xFF);
+                        break;
+
                     default:
                         return;
                 }
@@ -180,6 +188,23 @@ namespace PFWindow
             return new Rectangle(pictureBox.PointToClient(rectangle.Location), rectangle.Size);
         }
 
+        private void SetOpacity(byte value)
+        {
+            if (windowIndex < 0)
+            {
+                return;
+            }
+
+            try
+            {
+                WindowManager.SetOpacity(windows[windowIndex].Item1, value);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        
         private void SetTopMost(bool enable)
         {
             if (windowIndex < 0)

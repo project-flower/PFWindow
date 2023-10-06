@@ -3,12 +3,32 @@ using System.Runtime.InteropServices;
 
 namespace NativeApi
 {
+    /// <summary>
+    /// Window field offsets for GetWindowLong()
+    /// </summary>
+    public static partial class GWL
+    {
+        public const int WNDPROC = (-4);
+        public const int HINSTANCE = (-6);
+        public const int HWNDPARENT = (-8);
+        public const int STYLE = (-16);
+        public const int EXSTYLE = (-20);
+        public const int USERDATA = (-21);
+        public const int ID = (-12);
+    }
+
     public static partial class HWND
     {
         public static readonly IntPtr BOTTOM = new IntPtr(1);
         public static readonly IntPtr NOTOPMOST = new IntPtr(-2);
         public static readonly IntPtr TOP = IntPtr.Zero;
         public static readonly IntPtr TOPMOST = new IntPtr(-1);
+    }
+
+    public static partial class LWA
+    {
+        public const int COLORKEY = 0x00000001;
+        public const int ALPHA = 0x00000002;
     }
 
     /// <summary>
@@ -52,6 +72,9 @@ namespace NativeApi
         public static extern IntPtr GetDC(IntPtr hWnd);
 
         [DllImport(AssemblyName, SetLastError = true)]
+        public static extern IntPtr GetWindowLongPtr(IntPtr hwnd, int nIndex);
+
+        [DllImport(AssemblyName, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool GetWindowRect(IntPtr hwnd, out RECT lpRect);
 
@@ -64,6 +87,12 @@ namespace NativeApi
         public static extern bool ReleaseDC(IntPtr hWnd, IntPtr hDC);
 
         [DllImport(AssemblyName)]
+        public static extern bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, uint dwFlags);
+
+        [DllImport(AssemblyName, SetLastError = true)]
+        public static extern IntPtr SetWindowLongPtr(IntPtr hwnd, int nIndex, IntPtr dwNewLong);
+
+        [DllImport(AssemblyName)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
 
@@ -71,4 +100,9 @@ namespace NativeApi
     }
 
     public delegate bool WNDENUMPROC(IntPtr hWnd, IntPtr lParam);
+
+    public static partial class WS
+    {
+        public const int EX_LAYERED = 0x00080000;
+    }
 }

@@ -45,7 +45,9 @@
             "Resize",
             "Get Size",
             "Top-Most",
-            "No Top-Most"});
+            "No Top-Most",
+            "Translucent",
+            "Opaque"});
             this.comboBoxOperation.Location = new System.Drawing.Point(12, 12);
             this.comboBoxOperation.Name = "comboBoxOperation";
             this.comboBoxOperation.Size = new System.Drawing.Size(304, 20);
