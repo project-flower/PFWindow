@@ -70,7 +70,7 @@ namespace PFCentering
             int widthOffset = (screenSize.Right - screenSize.Left - (systemSize.Right - systemSize.Left));
             int heightOffset = (screenSize.Bottom - screenSize.Top - (systemSize.Bottom - systemSize.Top));
 
-            if (!User32.SetWindowPos(handle, IntPtr.Zero, 0 , 0
+            if (!User32.SetWindowPos(handle, IntPtr.Zero, 0, 0
                 , (size.Width - widthOffset), (size.Height - heightOffset), (SWP.ASYNCWINDOWPOS | SWP.NOMOVE)))
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
@@ -129,7 +129,7 @@ namespace PFCentering
         {
             if (!User32.SetWindowPos(handle
                 , (enable ? HWND.TOPMOST : HWND.NOTOPMOST)
-                , 0 , 0, 0, 0, (SWP.NOMOVE | SWP.NOSIZE)))
+                , 0, 0, 0, 0, (SWP.NOMOVE | SWP.NOSIZE)))
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
