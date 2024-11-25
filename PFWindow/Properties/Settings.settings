@@ -18,11 +18,16 @@
   &lt;string&gt;1920x1080 DeviceManager,779x570&lt;/string&gt;
   &lt;string&gt;1920x1080 Edge,928x1050&lt;/string&gt;
   &lt;string&gt;1920x1080 Explorer,1125x634&lt;/string&gt;
+  &lt;string&gt;1920x1080 Google Chrome,931x1023&lt;/string&gt;
   &lt;string&gt;1920x1080 Local Group Policies,752x528&lt;/string&gt;
+  &lt;string&gt;1920x1080 Mozilla Firefox,1286x970&lt;/string&gt;
+  &lt;string&gt;1920x1080 Notepad++,1010x693&lt;/string&gt;
   &lt;string&gt;1920x1080 Registry Editor,1424x758&lt;/string&gt;
   &lt;string&gt;1920x1080 Settings,1200x932&lt;/string&gt;
   &lt;string&gt;1920x1080 Task Manager,664x591&lt;/string&gt;
   &lt;string&gt;1920x1080 Visual Studio 2022,1716x929&lt;/string&gt;
+  &lt;string&gt;1920x1080 Visual Studio Code,1024x768&lt;/string&gt;
+  &lt;string&gt;1920x1080 WinMerge,1426x751&lt;/string&gt;
   &lt;string&gt;1920x1080 Windows Media Player,1520x855&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
