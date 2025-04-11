@@ -40,14 +40,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxOperation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxOperation.FormattingEnabled = true;
-            this.comboBoxOperation.Items.AddRange(new object[] {
-            "Centering",
-            "Resize",
-            "Get Size",
-            "Top-Most",
-            "No Top-Most",
-            "Translucent",
-            "Opaque"});
             this.comboBoxOperation.Location = new System.Drawing.Point(12, 12);
             this.comboBoxOperation.Name = "comboBoxOperation";
             this.comboBoxOperation.Size = new System.Drawing.Size(304, 20);

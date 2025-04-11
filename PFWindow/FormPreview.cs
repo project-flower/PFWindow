@@ -44,6 +44,22 @@ namespace PFWindow
             {
                 switch (operation)
                 {
+                    case Operations.MoveToTop:
+                        DoMove(WindowManager.MoveDirection.Top);
+                        break;
+
+                    case Operations.MoveToBottom:
+                        DoMove(WindowManager.MoveDirection.Bottom);
+                        break;
+
+                    case Operations.MoveToLeft:
+                        DoMove(WindowManager.MoveDirection.Left);
+                        break;
+
+                    case Operations.MoveToRight:
+                        DoMove(WindowManager.MoveDirection.Right);
+                        break;
+
                     case Operations.Centering:
                         DoCentering();
                         break;
@@ -124,6 +140,23 @@ namespace PFWindow
             try
             {
                 WindowManager.DoCentering(windows[windowIndex].Item1);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        private void DoMove(WindowManager.MoveDirection direction)
+        {
+            if (windowIndex < 0)
+            {
+                return;
+            }
+
+            try
+            {
+                WindowManager.DoMove(windows[windowIndex].Item1, direction);
             }
             catch
             {

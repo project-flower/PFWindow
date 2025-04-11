@@ -7,21 +7,6 @@ namespace PFWindow
 {
     public partial class FormMain : Form
     {
-        #region Public Classes
-
-        public static class IndexOf
-        {
-            public const int Centering = 0;
-            public const int Resize = 1;
-            public const int GetSize = 2;
-            public const int TopMost = 3;
-            public const int NoTopMost = 4;
-            public const int Translucent = 5;
-            public const int Opaque = 6;
-        }
-
-        #endregion
-
         #region Private Fields
 
         private readonly FormPreview formPreview = new FormPreview();
@@ -36,6 +21,23 @@ namespace PFWindow
             InitializeComponent();
             MaximumSize = new Size(int.MaxValue, Height);
             MinimumSize = Size;
+
+            comboBoxOperation.Items.AddRange(
+                new object[]
+                {
+                    new EnumAndStringPair<Operations>(Operations.MoveToTop, "Move to Top")
+                    , new EnumAndStringPair<Operations>(Operations.MoveToBottom, "Move to Bottom")
+                    , new EnumAndStringPair<Operations>(Operations.MoveToLeft, "Move to Left")
+                    , new EnumAndStringPair<Operations>(Operations.MoveToRight, "Move to Right")
+                    , new EnumAndStringPair<Operations>(Operations.Centering,"Centering")
+                    , new EnumAndStringPair<Operations>(Operations.Resize,"Resize")
+                    , new EnumAndStringPair<Operations>(Operations.GetSize,"Get Size")
+                    , new EnumAndStringPair<Operations>(Operations.TopMost,"Top-Most")
+                    , new EnumAndStringPair<Operations>(Operations.NoTopMost,"No Top-Most")
+                    , new EnumAndStringPair<Operations>(Operations.Translucent,"Translucent")
+                    , new EnumAndStringPair<Operations>(Operations.Opaque,"Opaque")
+                });
+
             comboBoxOperation.SelectedIndex = 0;
             settings = Settings.Default;
             formPreview.Initialize(settings.PreviewShadowColor, settings.PreviewShadowAlpha, settings.PreviewFrameColor);
@@ -85,14 +87,15 @@ namespace PFWindow
 
         private void buttonSelect_Click(object sender, EventArgs e)
         {
-            Operations operation;
-            Size size;
-            int index = comboBoxOperation.SelectedIndex;
+            var selectedItem = comboBoxOperation.SelectedItem as EnumAndStringPair<Operations>;
 
-            if (index == IndexOf.Resize)
+            if (selectedItem == null) return;
+
+            Operations operation = (Operations)selectedItem.Instance;
+            Size size = Size.Empty;
+
+            if (operation == Operations.Resize)
             {
-                operation = Operations.Resize;
-
                 if (comboBoxSizes.SelectedIndex < 0)
                 {
                     try
@@ -111,41 +114,6 @@ namespace PFWindow
                 }
                 else return;
             }
-            else
-            {
-                size = Size.Empty;
-
-                switch (index)
-                {
-                    case IndexOf.Centering:
-                        operation = Operations.Centering;
-                        break;
-
-                    case IndexOf.GetSize:
-                        operation = Operations.GetSize;
-                        formPreview.GotWindowSize = GotWindowSize;
-                        break;
-
-                    case IndexOf.TopMost:
-                        operation = Operations.TopMost;
-                        break;
-
-                    case IndexOf.NoTopMost:
-                        operation = Operations.NoTopMost;
-                        break;
-
-                    case IndexOf.Translucent:
-                        operation = Operations.Translucent;
-                        break;
-
-                    case IndexOf.Opaque:
-                        operation = Operations.Opaque;
-                        break;
-
-                    default:
-                        return;
-                }
-            }
 
             Hide();
             formPreview.ShowPreview(operation, size);
@@ -153,7 +121,8 @@ namespace PFWindow
 
         private void comboBoxOperation_SelectedIndexChanged(object sender, EventArgs e)
         {
-            comboBoxSizes.Enabled = (comboBoxOperation.SelectedIndex == IndexOf.Resize);
+            var selectedItem = comboBoxOperation.SelectedItem as EnumAndStringPair<Operations>;
+            comboBoxSizes.Enabled = (selectedItem != null && selectedItem.Instance == Operations.Resize);
         }
 
         private void shown(object sender, EventArgs e)

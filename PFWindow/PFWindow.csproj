@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="CaptureEngine.cs" />
     <Compile Include="DrawingEngine.cs" />
+    <Compile Include="EnumAndStringPair.cs" />
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -12,6 +12,7 @@ namespace PFCentering
         #region Public Classes
 
         public delegate void GetWindowSizeCallback(Size size);
+        public enum MoveDirection { Top, Bottom, Left, Right };
 
         #endregion
 
@@ -19,39 +20,79 @@ namespace PFCentering
 
         public static void DoCentering(IntPtr handle)
         {
-            if (!User32.GetWindowRect(handle, out RECT rect))
+            Rectangle screenBounds;
+            Rectangle windowRectangle;
+
+            try
             {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+                screenBounds = GetScreenBounds(handle, out windowRectangle);
+            }
+            catch
+            {
+                throw;
             }
 
-            int rectLeft = rect.Left;
-            int rectTop = rect.Top;
-            int rectWidth = (rect.Right - rectLeft);
-            int rectHeight = (rect.Bottom - rectTop);
-            var windowRectangle = new Rectangle(rectLeft, rectTop, rectWidth, rectHeight);
-            uint area = 0;
-            Rectangle screenBounds = Rectangle.Empty;
-
-            foreach (Screen screen in Screen.AllScreens)
-            {
-                Rectangle bounds = screen.Bounds;
-                uint area_ = GetArea(bounds, windowRectangle);
-
-                if (area_ <= area) continue;
-
-                screenBounds = bounds;
-                area = area_;
-            }
+            Rectangle logicalWindowRectangle = GetLogicalWindowRectangle(handle);
 
             if (!screenBounds.IsEmpty)
             {
-                if (!User32.SetWindowPos(handle, IntPtr.Zero
-                    , (screenBounds.Left + screenBounds.Width / 2 - rectWidth / 2)
-                    , (screenBounds.Top + screenBounds.Height / 2 - rectHeight / 2)
-                    , 0, 0, (SWP.ASYNCWINDOWPOS | SWP.NOSIZE)))
+                try
                 {
-                    throw new Win32Exception(Marshal.GetLastWin32Error());
+                    DoMove(
+                        handle
+                        , ((screenBounds.Left + screenBounds.Width / 2 - logicalWindowRectangle.Width / 2) - (logicalWindowRectangle.Left - windowRectangle.Left))
+                        , ((screenBounds.Top + screenBounds.Height / 2 - logicalWindowRectangle.Height / 2) - (logicalWindowRectangle.Top - windowRectangle.Top)));
                 }
+                catch
+                {
+                    throw;
+                }
+            }
+        }
+
+        public static void DoMove(IntPtr handle, MoveDirection direction)
+        {
+            Rectangle screenBounds;
+            Rectangle windowRectangle;
+
+            try
+            {
+                screenBounds = GetScreenBounds(handle, out windowRectangle);
+            }
+            catch
+            {
+                throw;
+            }
+
+            if (screenBounds.IsEmpty) return;
+
+            Rectangle logicalWindowRectangle = GetLogicalWindowRectangle(handle);
+            int x = windowRectangle.Left;
+            int y = windowRectangle.Top;
+
+            switch (direction)
+            {
+                case MoveDirection.Bottom:
+                    y = (screenBounds.Bottom - windowRectangle.Height - (logicalWindowRectangle.Bottom - windowRectangle.Bottom));
+                    break;
+                case MoveDirection.Left:
+                    x = (screenBounds.Left - (logicalWindowRectangle.Left - windowRectangle.Left));
+                    break;
+                case MoveDirection.Right:
+                    x = (screenBounds.Right - windowRectangle.Width - (logicalWindowRectangle.Right - windowRectangle.Right));
+                    break;
+                case MoveDirection.Top:
+                    y = (screenBounds.Top - (logicalWindowRectangle.Top - windowRectangle.Top));
+                    break;
+            }
+
+            try
+            {
+                DoMove(handle, x, y);
+            }
+            catch
+            {
+                throw;
             }
         }
 
@@ -79,18 +120,7 @@ namespace PFCentering
 
         public static void GetSize(IntPtr handle, GetWindowSizeCallback callback)
         {
-            Size result;
-
-            if (DwmApi.DwmGetWindowAttribute(handle, DWMWINDOWATTRIBUTE.DWMWA_EXTENDED_FRAME_BOUNDS, out RECT bounds, Marshal.SizeOf(typeof(RECT))) == 0)
-            {
-                result = new Size((bounds.Right - bounds.Left), (bounds.Bottom - bounds.Top));
-            }
-            else
-            {
-                result = Size.Empty;
-            }
-
-            callback(result);
+            callback(GetLogicalWindowRectangle(handle).Size);
         }
 
         public static void SetOpacity(IntPtr handle, byte value)
@@ -139,6 +169,14 @@ namespace PFCentering
 
         #region Private Methods
 
+        private static void DoMove(IntPtr handle, int x, int y)
+        {
+            if (!User32.SetWindowPos(handle, IntPtr.Zero, x, y, 0, 0, (SWP.ASYNCWINDOWPOS | SWP.NOSIZE)))
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+        }
+
         private static uint GetArea(Rectangle screen, Rectangle window)
         {
             Rectangle intersect = Rectangle.Intersect(screen, window);
@@ -149,6 +187,54 @@ namespace PFCentering
             }
 
             return ((uint)intersect.Width * (uint)intersect.Height);
+        }
+
+        /// <summary>
+        /// ウィンドウの論理領域を取得します。
+        /// <para>
+        /// Windows 10 等では実際に描画されないボーダーを含めた領域を取得します。
+        /// </para>
+        /// </summary>
+        /// <param name="handle">ウィンドウのハンドル。</param>
+        /// <returns>ウィンドウの論理領域。</returns>
+        private static Rectangle GetLogicalWindowRectangle(IntPtr handle)
+        {
+            if (DwmApi.DwmGetWindowAttribute(handle, DWMWINDOWATTRIBUTE.DWMWA_EXTENDED_FRAME_BOUNDS, out RECT rect, Marshal.SizeOf(typeof(RECT))) != 0)
+            {
+                return Rectangle.Empty;
+            }
+
+            return rect.ToRectangle();
+        }
+
+        private static Rectangle GetScreenBounds(IntPtr windowHandle, out Rectangle windowRectangle)
+        {
+            if (!User32.GetWindowRect(windowHandle, out RECT rect))
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+
+            windowRectangle = rect.ToRectangle();
+            uint area = 0;
+            Rectangle result = Rectangle.Empty;
+
+            foreach (Screen screen in Screen.AllScreens)
+            {
+                Rectangle bounds = screen.Bounds;
+                uint area_ = GetArea(bounds, windowRectangle);
+
+                if (area_ <= area) continue;
+
+                result = bounds;
+                area = area_;
+            }
+
+            return result;
+        }
+
+        private static Rectangle ToRectangle(this RECT rect)
+        {
+            return new Rectangle(rect.Left, rect.Top, (rect.Right - rect.Left), (rect.Bottom - rect.Top));
         }
 
         #endregion

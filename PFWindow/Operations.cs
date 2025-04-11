@@ -2,6 +2,6 @@
 {
     public enum Operations
     {
-        None, Centering, Resize, GetSize, TopMost, NoTopMost, Translucent, Opaque
+        None, MoveToTop, MoveToBottom, MoveToLeft, MoveToRight, Centering, Resize, GetSize, TopMost, NoTopMost, Translucent, Opaque
     }
 }
