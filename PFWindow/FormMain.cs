@@ -41,6 +41,7 @@ namespace PFWindow
             comboBoxOperation.SelectedIndex = 0;
             settings = Settings.Default;
             formPreview.Initialize(settings.PreviewShadowColor, settings.PreviewShadowAlpha, settings.PreviewFrameColor);
+            formPreview.GotWindowSize = GotWindowSize;
             formPreview.VisibleChanged += formPreview_VisibleChanged;
         }
 
